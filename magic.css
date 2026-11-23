@@ -1,0 +1,298 @@
+/* Magic layer, loaded after style.css. The animation rules below are copied from woz.css and the woz.lol page scripts.
+   Weight rules: one 3 KB fabric tile, the header clips of woz.lol (first 200 KB, others load later), springs and pulses that only move transform and opacity,
+   and the lights on a slow timer that stands down on a slow machine. Everything pauses off screen and stays still for reduced motion or data saving. */
+
+:root {
+  --glow: #b8ff9c;
+  --teal: 0, 225, 200;
+  --magenta: 255, 45, 190;
+    --woz-pill-bounce: linear(0, -0.407, -0.644, -0.719, -0.652, -0.469, -0.202, 0.114, 0.449, 0.774, 1.066, 1.307, 1.488, 1.603, 1.654, 1.648, 1.593, 1.502, 1.386, 1.259, 1.132, 1.015, 0.915, 0.836, 0.783, 0.754, 0.749, 0.763, 0.793, 0.835, 0.882, 0.931, 0.978, 1.019, 1.052, 1.077, 1.091, 1.096, 1.094, 1.084, 1.07, 1.052, 1.033, 1.015, 0.998, 0.984, 0.974, 0.967, 0.963, 0.963, 0.966, 0.971, 0.977, 0.984, 0.992, 0.998, 1.004, 1.009, 1.012, 1.014, 1.014, 1.013, 1.012, 1.01, 1);
+    --woz-glow: #cfe0b9;
+    --woz-glow-text: #e6efd9;
+    --woz-glow-ink: #1f281b;
+    --woz-spring-in: linear(0, 0.097, 0.356, 0.714, 1.095, 1.423, 1.641, 1.718, 1.651, 1.467, 1.211, 0.937, 0.701, 0.542, 0.485, 0.531, 0.662, 0.845, 1.041, 1.212, 1.327, 1.37, 1.338, 1.245, 1.114, 0.973, 0.85, 0.766, 0.735, 0.756, 0.822, 0.916, 1.017, 1.106, 1.167, 1.19, 1.175, 1.129, 1.062, 0.989, 0.925, 0.881, 0.864, 0.874, 0.907, 0.955, 1.007, 1.053, 1.085, 1.098, 1.091, 1.068, 1.033, 0.996, 0.963, 0.939, 0.93, 0.934, 0.951, 0.976, 1.002, 1.026, 1.043, 1.049, 1.042, 1.027, 1.011, 0.999, 0.994, 0.993, 0.996, 0.999, 1);
+    --woz-spring-out: linear(0, 0.046, 0.171, 0.35, 0.558, 0.772, 0.973, 1.143, 1.273, 1.358, 1.397, 1.393, 1.355, 1.292, 1.212, 1.126, 1.043, 0.969, 0.91, 0.869, 0.846, 0.84, 0.85, 0.872, 0.902, 0.935, 0.969, 1.001, 1.027, 1.047, 1.059, 1.064, 1.062, 1.055, 1.045, 1.032, 1.018, 1.005, 0.993, 0.984, 0.978, 0.975, 0.975, 0.977, 0.98, 0.985, 0.991, 0.996, 1.001, 1.005, 1.008, 1.01, 1.01, 1.01, 1.009, 1.007, 1);
+}
+
+/* ---- Header over the hero, menu pills from woz.lol: faded green ring, sheen, light spot, swell and invert on hover, bounce on leave */
+.site-header { background: transparent; color: var(--paper); z-index: 3; }
+.main-nav { gap: 12px; }
+.main-nav a {
+  position: relative;
+  border: 2px solid var(--woz-glow);
+  padding: 7px 14px;
+  border-radius: 90px;
+  background-color: rgba(21, 22, 25, 0.6);
+  color: var(--woz-glow-text);
+  transition: transform 1.8s var(--woz-pill-bounce), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.3s ease;
+}
+.main-nav a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 12% 4%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 46%),
+    linear-gradient(172deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.07) 38%, rgba(255, 255, 255, 0) 52%, rgba(255, 255, 255, 0) 78%, rgba(255, 255, 255, 0.07) 100%);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border: 2px solid transparent;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle 28px at 10% 16%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.55) 35%, rgba(255, 255, 255, 0)) border-box;
+  -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) padding-box exclude, linear-gradient(#000 0 0);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+html body .main-nav a:hover {
+  z-index: 3;
+  transform: scale(1.1);
+  background-color: var(--woz-glow);
+  color: var(--woz-glow-ink);
+  border-bottom-color: var(--woz-glow);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), inset 0 9px 15px rgba(255, 255, 255, 0.3), inset 0 -6px 10px rgba(0, 0, 0, 0.16), 0 4px 10px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.25), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.3s ease;
+}
+.main-nav a:hover::before, .main-nav a:hover::after { opacity: 1; }
+.main-nav a.nav-contact { border-bottom: 2px solid var(--woz-glow); padding-bottom: 7px; }
+@media (prefers-reduced-motion: reduce) {
+  .main-nav a, html body .main-nav a:hover { transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease; transform: none; }
+}
+
+/* ---- Hero: the three header clips of woz.lol cross fade behind a dark scrim, the poster and gradient show at once */
+.hero {
+  overflow: hidden;
+  isolation: isolate;
+  background-color: #12101c;
+  background-image: linear-gradient(110deg, rgba(23, 35, 41, 0.88), rgba(23, 35, 41, 0.2)), url("img/hero-bg.webp");
+  background-size: cover;
+  background-position: center;
+}
+.hero-video { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.hero-video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.7s ease; }
+.hero-video video.is-on { opacity: 1; }
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(14, 13, 26, 0.75), rgba(14, 13, 26, 0) 160px), linear-gradient(110deg, rgba(14, 13, 26, 0.8), rgba(14, 13, 26, 0.25));
+}
+.hero-image { box-shadow: -40px 0 80px rgba(23, 35, 41, 0.6); height: 80%; top: 13%; }
+.status-dot { background: var(--glow); box-shadow: 0 0 8px var(--glow); }
+
+/* ---- Buttons, one family: woven canvas tile, inset shadows, press, text shadow, colors mixed with the page dark, no color change on hover */
+.header-buttons-wrapper .woz-btn { display: inline-flex; vertical-align: top; }
+.button, .web-btn {
+  background-image: url("img/canvas.webp");
+  background-size: 24px 24px;
+  background-repeat: repeat;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 -3px 6px rgba(0, 0, 0, 0.22), 0 2px 5px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+}
+.button:active, .web-btn:active { box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4); }
+.button-light { --woz-btn: #03a9f4; --woz-mix: 55%; background-color: color-mix(in srgb, var(--woz-btn) var(--woz-mix), #14161a); color: #fff; font-weight: 300; }
+.web-btn { background-color: #69763a; color: #fff; font-weight: 300; }
+.web-btn-quiet { background-color: #46636b; }
+
+/* ---- Main call to action: a slow bounce toward you with a backlit glow, transform and opacity only, held still until the hero is on screen */
+@keyframes woz-bounce {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.09); }
+  44% { transform: scale(1.02); }
+  58% { transform: scale(1.06); }
+  76% { transform: scale(1); }
+}
+@keyframes woz-glow {
+  0%, 100% { opacity: 0.35; transform: scale(0.96); }
+  30% { opacity: 1; transform: scale(1.18); }
+  44% { opacity: 0.5; transform: scale(1.02); }
+  58% { opacity: 0.8; transform: scale(1.1); }
+  76% { opacity: 0.35; transform: scale(0.96); }
+}
+.hero a.button-light {
+  position: relative;
+  isolation: isolate;
+  animation: woz-bounce 4.8s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.hero a.button-light::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+  inset: -10px -16px;
+  border-radius: 14px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(40, 190, 255, 0.85), rgba(40, 190, 255, 0.35) 55%, rgba(40, 190, 255, 0));
+  filter: blur(8px);
+  animation: woz-glow 4.8s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.hero.is-live a.button-light, .hero.is-live a.button-light::before { animation-play-state: running; }
+@media (prefers-reduced-motion: reduce) {
+  .hero a.button-light, .hero a.button-light::before { animation: none; }
+}
+
+/* ---- Round glass balls above the cards. Only transform moves the ball: hover presses it down behind the photo on a slow spring, leaving springs it back up */
+.project-row.four-up { margin-top: 75px; row-gap: 80px; }
+.project-row.four-up .project-card, .web-card { position: relative; isolation: isolate; }
+.ball, .ball:hover {
+  position: absolute;
+  z-index: 0;
+  top: -55px;
+  left: 50%;
+  margin-left: -50px;
+  box-sizing: border-box;
+  width: 100px;
+  height: 100px;
+  padding: 5px;
+  border: 2px solid var(--woz-glow);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 26%, rgba(230, 239, 217, 0.22), rgba(207, 224, 185, 0.08) 48%, rgba(21, 22, 25, 0) 100%),
+    rgba(21, 22, 25, 0.2);
+  pointer-events: none;
+  transition: transform 1.6s var(--woz-spring-out);
+}
+.web-card .ball { top: -41px; }
+.ball::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle 7px at 27% 19%, rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.55) 55%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(ellipse 41% 27% at 33% 22%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 72%),
+    linear-gradient(172deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.07) 40%, rgba(255, 255, 255, 0) 54%, rgba(255, 255, 255, 0) 80%, rgba(255, 255, 255, 0.08) 100%);
+}
+.ball::after {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle 30px at 15% 15%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.55) 35%, rgba(255, 255, 255, 0));
+  -webkit-mask: radial-gradient(circle farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px));
+  mask: radial-gradient(circle farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px));
+}
+.project-row.four-up .project-card > :not(.ball), .web-card > :not(.ball) { position: relative; z-index: 1; }
+.project-row.four-up .project-card:hover .ball, .web-card:hover .ball { transform: translateY(47px); transition: transform 3.6s var(--woz-spring-in); }
+@media (prefers-reduced-motion: reduce) {
+  .ball, .ball:hover, .project-row.four-up .project-card:hover .ball, .web-card:hover .ball { transition: none; transform: none; }
+}
+
+/* ---- Dark sections get a faint teal and magenta wash, static */
+.dark-section {
+  background-image:
+    radial-gradient(ellipse 60% 40% at 92% 0%, rgba(var(--teal), 0.16), transparent 70%),
+    radial-gradient(ellipse 55% 40% at 4% 100%, rgba(var(--magenta), 0.14), transparent 70%);
+}
+
+.screen-card { background: rgba(255, 255, 255, 0.25); padding: 10px 10px 18px; border-radius: 10px; box-shadow: 0 6px 18px rgba(23, 35, 41, 0.18); }
+.screen-card h3, .screen-card p { padding: 0 6px; }
+.screen-visual { border-radius: 6px; }
+
+/* ---- Web Projects: the fabric band of woz.lol, woven tile on dark violet, lit by slow teal and magenta spotlights with soft shade.
+   The ::after layer rests where the numbers below put it, magic.js moves the lights about 12 times a second while the section is on screen. */
+.web-section { position: relative; overflow: hidden; isolation: isolate; color: var(--paper); }
+.web-section::before, .web-section::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.web-section::before { z-index: -2; background: url("img/canvas.webp") 0 0 / 24px 24px, linear-gradient(180deg, #1d1a29, #171521 55%, #15141c); }
+.web-section::after {
+  z-index: -1;
+  background: var(--woz-lights,
+    radial-gradient(circle 300px at 35% 55%, rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0) 100%),
+    radial-gradient(circle 260px at 85% 35%, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0) 100%),
+    radial-gradient(circle 330px at 18% 40%, rgba(0, 225, 200, 0.34), rgba(0, 225, 200, 0.14) 50%, rgba(0, 225, 200, 0) 100%),
+    radial-gradient(circle 360px at 78% 60%, rgba(255, 45, 190, 0.34), rgba(255, 45, 190, 0.14) 50%, rgba(255, 45, 190, 0) 100%),
+    radial-gradient(circle 200px at 48% 30%, rgba(255, 45, 190, 0.26), rgba(255, 45, 190, 0) 100%),
+    radial-gradient(circle 220px at 62% 75%, rgba(0, 225, 200, 0.26), rgba(0, 225, 200, 0) 100%));
+}
+.web-section .section-label { color: var(--glow); }
+.web-section .other-heading, .web-grid { position: relative; z-index: 2; }
+.web-section .other-heading p { font-size: 1rem; line-height: 1.6; }
+.web-grid { display: grid; column-gap: 22px; row-gap: 80px; margin-top: 30px; grid-template-columns: repeat(6, 1fr); }
+.web-card { grid-column: span 2; padding: 14px 14px 18px; border: 1px solid rgba(243, 240, 233, 0.16); border-radius: 14px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.03)); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.18); }
+.web-card:nth-child(4) { grid-column: 2 / 4; }
+.web-card:nth-child(5) { grid-column: 4 / 6; }
+.web-shot { aspect-ratio: 1200 / 630; overflow: hidden; border-radius: 8px; background: #000; }
+.web-card h3 { font-size: 1.35rem; font-weight: normal; margin: 16px 4px 6px; }
+.web-card p { font-size: 0.95rem; line-height: 1.55; margin: 0 4px 16px; opacity: 0.85; }
+.web-links { display: flex; gap: 10px; margin: 0 4px; }
+.web-btn { align-items: center; display: inline-flex; font-family: Arial, sans-serif; font-size: 0.72rem; gap: 8px; letter-spacing: 0.1em; padding: 11px 16px; text-transform: uppercase; }
+.web-btn:focus-visible, .main-nav a:focus-visible { outline: 3px solid var(--glow); outline-offset: 3px; }
+.footer .header-buttons-wrapper { align-self: center; }
+
+@media (max-width: 900px) {
+  .web-grid { grid-template-columns: repeat(2, 1fr); }
+  .web-card, .web-card:nth-child(4), .web-card:nth-child(5) { grid-column: auto; }
+}
+@media (max-width: 720px) {
+  .site-header { background: var(--ink); }
+  .main-nav a { padding: 5px 11px; }
+  .project-row.four-up { margin-top: 70px; }
+}
+@media (max-width: 560px) {
+  .web-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- Headings: one treatment for every title, no accent word.
+   The glass sheen of the balls and pills runs across the whole heading: a light spot upper left that falls off toward the lower right.
+   Titles balance across two even lines. Static paint, nothing moves. */
+.hero h1, .about h2, .section-heading h2, .screen-intro h2, .other-heading h2, .footer h2 {
+  text-wrap: balance;
+  max-width: 11em;
+  letter-spacing: -0.015em;
+}
+.hero h1, .dark-section h2, .web-section h2 {
+  color: var(--paper);
+  background: radial-gradient(130% 160% at 6% 0%, #ffffff 0%, rgba(243, 240, 233, 0.82) 48%, rgba(243, 240, 233, 0.58) 100%);
+}
+.about h2, .screen-section h2 {
+  color: var(--ink);
+  background: radial-gradient(130% 160% at 6% 0%, #0b1316 0%, var(--ink) 48%, #4a5a60 100%);
+}
+.hero h1, .dark-section h2, .web-section h2, .about h2, .screen-section h2 {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.footer h2 { color: var(--ink); }
+@supports not (background-clip: text) {
+  .hero h1, .dark-section h2, .web-section h2, .about h2, .screen-section h2 { background: none; -webkit-text-fill-color: currentColor; }
+}
+
+/* ---- Clickable images lean like the buttons. magic.js wraps each one in a still holder, the holder keeps the hover while the picture moves. */
+.lift-wrap { display: block; position: relative; }
+.lift-wrap:hover { z-index: 5; }
+.solution-item > div > .lift-wrap { position: absolute; right: 0; top: 0; width: 180px; height: 100%; }
+.lift-wrap > .solution-photo { position: static !important; width: 100% !important; height: 100% !important; }
+@media (max-width: 720px) {
+  .solution-item > div > .lift-wrap { width: 120px; }
+}
+
+/* ---- Web card blurbs: hook, short description, tech stack chips, three key features */
+.web-card p.web-hook { font-size: 1.02rem; opacity: 1; margin-bottom: 10px; }
+.web-stack { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 4px 14px; padding: 0; }
+.web-stack li { border: 1px solid rgba(243, 240, 233, 0.28); border-radius: 99px; font-family: Arial, sans-serif; font-size: 0.62rem; letter-spacing: 0.08em; padding: 4px 10px; text-transform: uppercase; }
+.web-features { font-size: 0.88rem; line-height: 1.5; margin: 0 4px 18px; opacity: 0.85; padding-left: 18px; }
+.web-features li { margin-bottom: 4px; }
+
+/* ---- View Project links on the cards */
+.card-link { border-bottom: 1px solid currentColor; display: inline-block; font-family: Arial, sans-serif; font-size: 0.66rem; letter-spacing: 0.1em; margin-top: 12px; opacity: 0.8; padding-bottom: 4px; text-transform: uppercase; }
+.card-link:hover { opacity: 1; color: var(--glow); }
+.screen-card .card-link { margin: 12px 6px 0; }
+.screen-card .card-link:hover { color: var(--ink); }
